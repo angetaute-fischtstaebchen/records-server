@@ -8,4 +8,3 @@ An open source project to practice client-server intergration
  *  Mongoose.js
  *  Faker.js
 
-### test push 2
