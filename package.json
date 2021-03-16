@@ -4,7 +4,7 @@
   "description": "An open source project to practice client-server intergration",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint 'src/**/*.{js,jsx}' --config ./.eslintrc.json",
+    "lint": "eslint 'src/**/*.{js}' --config ./.eslintrc.json",
     "start": "nodemon server.js"
   },
   "repository": {
