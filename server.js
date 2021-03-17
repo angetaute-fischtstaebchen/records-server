@@ -29,3 +29,11 @@ mongoose
   })
   .then(() => console.log(`Yay - Connection to cloud database established!`))
   .catch((err) => console.log('[ERROR] DB Connection failed', err));
+
+// errorhandler
+
+app.use(function errorHandler(err, req, res, next) {
+  res.status(err.status || 500).send({
+    error: { message: err.message },
+  });
+});
