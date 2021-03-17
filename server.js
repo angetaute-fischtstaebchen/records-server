@@ -8,9 +8,8 @@ const PORT = process.env.PORT;
 
 //Routes
 const usersRouter = require('./src/routes/usersRouter');
-const signupRouter = require('./src/routes/loginRouter');
+const authRouter = require('./src/routes/authRouter');
 const recordRouter = require('./src/routes/recordRouter');
-const loginRouter = require('./src/routes/loginRouter');
 
 //Middleware
 app.use(express.json());
@@ -40,9 +39,8 @@ mongoose
   .catch((err) => console.log('[ERROR] DB Connection failed', err));
 
 // Routes
+app.use('/', authRouter);
 app.use('/users', usersRouter);
-app.use('/signup', signupRouter);
-app.use('/login', loginRouter);
 app.use('/dashboard', recordRouter);
 
 //Main
