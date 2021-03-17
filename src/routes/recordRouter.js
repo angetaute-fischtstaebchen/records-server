@@ -4,12 +4,12 @@ const router = express.Router();
 
 const {
   getRecords,
-  deleteRecords,
+  deleteRecord,
   addRecord,
 } = require('../controller/recordController');
 
 // dashboard == base path
 router.route('/').get(getRecords).post(addRecord);
-router.route('/:id').delete(deleteRecords);
+router.route('/:id').delete(deleteRecord);
 
 module.exports = router;

@@ -10,17 +10,6 @@ const getRecords = async (req, res, next) => {
 };
 
 // for testing
-const getRecord = async (req, res, next) => {
-  const { id } = req.params; // tbd
-  try {
-    const record = await Record.findById(id);
-    res.json(record);
-  } catch (err) {
-    next(err);
-  }
-};
-
-// for testing
 const addRecord = async (req, res, next) => {
   const recordInfo = req.body;
   try {
@@ -31,7 +20,7 @@ const addRecord = async (req, res, next) => {
   }
 };
 
-const deleteRecords = async (req, res, next) => {
+const deleteRecord = async (req, res, next) => {
   const { id } = req.params;
   try {
     const RecordToDelete = await Record.findByIdAndDelete(id);
@@ -43,7 +32,6 @@ const deleteRecords = async (req, res, next) => {
 
 module.exports = {
   getRecords,
-  deleteRecords,
-  getRecord,
+  deleteRecord,
   addRecord,
 };
