@@ -31,19 +31,6 @@ const addRecord = async (req, res, next) => {
   }
 };
 
-// not necessary till now
-// const updateRecord = async (req, res, next) => {
-//   const { id } = req.params;
-//   try {
-//     const UpdatedRecord = await Record.findByIdAndUpdate(id, req.body, {
-//       new: true,
-//     });
-//     res.json(UpdatedRecord);
-//   } catch (err) {
-//     next(err);
-//   }
-// };
-
 const deleteRecords = async (req, res, next) => {
   const { id } = req.params;
   try {

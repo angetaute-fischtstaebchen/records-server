@@ -4,23 +4,23 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT;
+const port = process.env.PORT;
 
-//Routes
+// Routes
 const usersRouter = require('./src/routes/usersRouter');
 const authRouter = require('./src/routes/authRouter');
 const recordRouter = require('./src/routes/recordRouter');
 
-//Middleware
+// Middleware
 app.use(express.json());
 app.use(cors());
 
-//Start server
-app.listen(PORT, () => {
-  console.log(`Backend-Server started successfully at port: ${PORT}`);
+// Start server
+app.listen(port, () => {
+  console.log(`Backend-Server started successfully at port: ${port}`);
 });
 
-//DB
+// DB
 const dbUser = process.env.DB_USER;
 const dbPass = process.env.DB_PASS;
 
@@ -43,13 +43,13 @@ app.use('/', authRouter);
 app.use('/users', usersRouter);
 app.use('/dashboard', recordRouter);
 
-//Main
+// Main
 app.get('/', (req, res) => {
   res.send({ message: 'Hello World' });
 });
 
 // Errorhandler
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   res.status(err.status || 500).send({
     error: { message: err.message },
   });
