@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 
 const {
@@ -7,7 +8,7 @@ const {
   addRecord,
 } = require('../controller/recordController');
 
-//dashboard == base path
+// dashboard == base path
 router.route('/').get(getRecords).post(addRecord);
 router.route('/:id').delete(deleteRecords);
 

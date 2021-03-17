@@ -20,7 +20,7 @@ const getRecord = async (req, res, next) => {
   }
 };
 
-//for testing
+// for testing
 const addRecord = async (req, res, next) => {
   const recordInfo = req.body;
   try {
@@ -31,7 +31,7 @@ const addRecord = async (req, res, next) => {
   }
 };
 
-//not necessary till now
+// not necessary till now
 // const updateRecord = async (req, res, next) => {
 //   const { id } = req.params;
 //   try {

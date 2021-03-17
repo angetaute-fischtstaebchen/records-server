@@ -1,6 +1,6 @@
 const User = require('../models/User');
 
-//for testing
+// for testing
 const getUsers = async (req, res, next) => {
   try {
     const allUsers = await User.find();
@@ -14,13 +14,14 @@ const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
   try {
     const user = await User.find({ email, password });
-    console.log(user);
     if (user.length < 1) {
       throw new Error('User does not exists.Please signup');
     }
     res.json(user);
   } catch (err) {
-    let error = new Error(`User with ${email} does not exist. Please signup.`);
+    const error = new Error(
+      `User with ${email} does not exist. Please signup.`
+    );
     error.status = 400;
     next(error);
   }
