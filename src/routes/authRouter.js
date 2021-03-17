@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const { getUser, addUser } = require('../controller/userController');
+const { loginUser, addUser } = require('../controller/userController');
 
 // '/'== base path
-router.route('/login').get(getUser);
+router.route('/login').post(loginUser);
 router.route('/signup').post(addUser);
 
 module.exports = router;
