@@ -1,15 +1,5 @@
 const User = require('../models/User');
 
-// for testing
-const getUsers = async (req, res, next) => {
-  try {
-    const allUsers = await User.find();
-    res.json(allUsers);
-  } catch (err) {
-    next(err);
-  }
-};
-
 const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
   try {
@@ -70,7 +60,6 @@ const deleteUser = async (req, res, next) => {
 };
 
 module.exports = {
-  getUsers,
   getUser,
   addUser,
   updateUser,
