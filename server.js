@@ -1,7 +1,41 @@
-const express = require('express')
-const app = express()
-const PORT = 5000
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
 
+const app = express();
+const PORT = process.env.PORT;
+
+//Middleware
+app.use(express.json());
+app.use(cors());
+
+//Start server
 app.listen(PORT, () => {
-    console.log(`Backend-Server started successfully at port: ${PORT}`)
-})
+  console.log(`Backend-Server started successfully at port: ${PORT}`);
+});
+
+//DB
+const dbUser = process.env.DB_USER;
+const dbPass = process.env.DB_PASS;
+
+const dbConnect = `mongodb+srv://${dbUser}:${dbPass}@cluster0.1cqrd.mongodb.net/records_db?retryWrites=true&w=majority`;
+
+const mongooseOptions = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true,
+};
+
+mongoose
+  .connect(dbConnect, mongooseOptions)
+  .then(() => console.log(`Yay - Connection to cloud database established!`))
+  .catch((err) => console.log('[ERROR] DB Connection failed', err));
+
+// Errorhandler
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).send({
+    error: { message: err.message },
+  });
+});
