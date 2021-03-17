@@ -6,6 +6,9 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT;
 
+//Routes
+const usersRouter = require('./src/routes/usersRouter');
+
 //Middleware
 app.use(express.json());
 app.use(cors());
@@ -32,6 +35,9 @@ mongoose
   .connect(dbConnect, mongooseOptions)
   .then(() => console.log(`Yay - Connection to cloud database established!`))
   .catch((err) => console.log('[ERROR] DB Connection failed', err));
+
+// Routes
+app.use('/users', usersRouter);
 
 // Errorhandler
 app.use((err, req, res, next) => {
