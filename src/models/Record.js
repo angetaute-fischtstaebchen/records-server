@@ -4,7 +4,11 @@ const { Schema, model } = mongoose;
 
 const RecordSchema = new Schema(
   {
-    cover: { type: String, required: true, default: 'xyz' },
+    cover: {
+      type: String,
+      required: false,
+      default: './statics/assets/record01.png',
+    },
     title: { type: String, required: true },
     artist: { type: String, required: true },
     year: { type: Number, required: true },
