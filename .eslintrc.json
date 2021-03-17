@@ -13,9 +13,10 @@
   "parserOptions": {
     "ecmaVersion": 12
   },
-  "plugins": ["prettier", "mongoose"],
+  "plugins": ["prettier", "mongodb"],
   "rules": {
     "import/prefer-default-export": "off",
-    "import/no-default-export": "error"
+    "import/no-default-export": "error",
+    "mongodb/no-replace": 0
   }
 }

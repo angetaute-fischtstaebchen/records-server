@@ -1,9 +1,15 @@
 const express = require('express');
+
 const router = express.Router();
 
-const { getRecords, deleteRecords } = require('../controller/userController');
+const {
+  getRecords,
+  deleteRecord,
+  addRecord,
+} = require('../controller/recordController');
 
-//dashboard == base path
-router.route('/').get(getRecords).delete(deleteRecords);
+// dashboard == base path
+router.route('/').get(getRecords).post(addRecord);
+router.route('/:id').delete(deleteRecord);
 
 module.exports = router;
