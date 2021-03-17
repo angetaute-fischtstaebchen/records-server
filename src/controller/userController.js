@@ -17,16 +17,6 @@ const loginUser = async (req, res, next) => {
   }
 };
 
-const getUser = async (req, res, next) => {
-  const { id } = req.params;
-  try {
-    const user = await User.findById(id);
-    res.json(user);
-  } catch (err) {
-    next(err);
-  }
-};
-
 const addUser = async (req, res, next) => {
   const userInfo = req.body;
   try {
@@ -60,7 +50,6 @@ const deleteUser = async (req, res, next) => {
 };
 
 module.exports = {
-  getUser,
   addUser,
   updateUser,
   deleteUser,

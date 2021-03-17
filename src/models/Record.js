@@ -6,8 +6,8 @@ const RecordSchema = new Schema(
   {
     cover: { type: String, required: true, default: 'xyz' },
     title: { type: String, required: true },
-    artist: { type: String, required: false },
-    year: { type: Number, required: false },
+    artist: { type: String, required: true },
+    year: { type: Number, required: true },
   },
   {
     versionKey: false,
