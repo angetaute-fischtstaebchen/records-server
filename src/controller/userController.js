@@ -30,10 +30,11 @@ const addUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const UpdatedUser = await User.findByIdAndUpdate(id, req.body, {
+    const updatedUser = await User.findByIdAndUpdate(id, req.body, {
       new: true,
+      useFindAndModify: false,
     });
-    res.json(UpdatedUser);
+    res.json(updatedUser);
   } catch (err) {
     next(err);
   }
@@ -42,8 +43,8 @@ const updateUser = async (req, res, next) => {
 const deleteUser = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const UserToDelete = await User.findByIdAndDelete(id);
-    res.json(UserToDelete);
+    const userToDelete = await User.findByIdAndDelete(id);
+    res.json(userToDelete);
   } catch (err) {
     next(err);
   }
