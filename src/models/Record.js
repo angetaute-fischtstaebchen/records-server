@@ -17,14 +17,9 @@ const RecordSchema = new Schema(
   {
     versionKey: false,
     timestamps: true,
-    toJSON: { virtuals: true },
   }
 );
 
 const Record = model('Record', RecordSchema);
-
-// RecordSchema.virtual('url').get(() =>
-//   path.join(__dirname, this.avatar)
-// );
 
 module.exports = Record;
