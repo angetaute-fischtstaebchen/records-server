@@ -43,9 +43,9 @@ console.log(`build script `);
 
   const recordPromises = Array(20)
     .fill(null)
-    .map(() => {
+    .map((_, i) => {
       const recordData = {
-        cover: `http:localhost:${port}/statics/assets/record01.png`,
+        cover: `http://localhost:${port}/statics/assets/record${i + 1}.png`,
         title: faker.name.firstName() + faker.name.lastName(),
         artist: faker.company.companyName(),
         year: faker.date.past().getFullYear(),
