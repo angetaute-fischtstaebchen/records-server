@@ -15,7 +15,7 @@ const recordRouter = require('./src/routes/recordRouter');
 // Middleware
 app.use(express.json());
 app.use(cors());
-app.use('/statics', express.static(path.join(__dirname, 'statics')));
+app.use('/statics', express.static(path.join(__dirname, 'src/statics')));
 
 // Start server
 app.listen(port, () => {

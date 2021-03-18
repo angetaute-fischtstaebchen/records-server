@@ -12,12 +12,13 @@ const UserSchema = new Schema(
     avatar: {
       type: String,
       required: false,
-      default: './avatar/01.png',
+      default: 'http:localhost:5000/statics/avatar/01.png',
     },
   },
   {
     versionKey: false,
     timestamps: true,
+    toJSON: { virtuals: true },
   }
 );
 

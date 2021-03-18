@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+// const path = require('path');
 
 const { Schema, model } = mongoose;
 
@@ -6,8 +7,8 @@ const RecordSchema = new Schema(
   {
     cover: {
       type: String,
+      default: 'http:localhost:5000/statics/assets/record01.png',
       required: true,
-      default: '/assets/record01.png',
     },
     title: { type: String, required: true },
     artist: { type: String, required: true },
@@ -16,9 +17,14 @@ const RecordSchema = new Schema(
   {
     versionKey: false,
     timestamps: true,
+    toJSON: { virtuals: true },
   }
 );
 
 const Record = model('Record', RecordSchema);
+
+// RecordSchema.virtual('url').get(() =>
+//   path.join(__dirname, this.avatar)
+// );
 
 module.exports = Record;
