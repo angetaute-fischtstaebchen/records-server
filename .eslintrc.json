@@ -4,12 +4,7 @@
     "commonjs": true,
     "es2021": true
   },
-  "extends": [
-    "plugin:import/recommended",
-    "plugin:prettier/recommended",
-    "airbnb-base",
-    "prettier"
-  ],
+  "extends": ["plugin:prettier/recommended", "airbnb-base", "prettier"],
   "parserOptions": {
     "ecmaVersion": 12
   },
