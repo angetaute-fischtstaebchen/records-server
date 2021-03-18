@@ -12,7 +12,7 @@ const UserSchema = new Schema(
     avatar: {
       type: String,
       required: false,
-      default: './statics/avatar/01.png',
+      default: './avatar/01.png',
     },
   },
   {
