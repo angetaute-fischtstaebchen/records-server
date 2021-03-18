@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint 'src/**/*.js' --config ./.eslintrc.json",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "seed": "node src/seed/seedUserDB.js"
   },
   "repository": {
     "type": "git",
