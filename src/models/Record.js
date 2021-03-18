@@ -7,7 +7,7 @@ const RecordSchema = new Schema(
   {
     cover: {
       type: String,
-      default: 'http:localhost:5000/statics/assets/record01.png',
+      default: 'http:localhost:5000/statics/assets/record1.png',
       required: true,
     },
     title: { type: String, required: true },

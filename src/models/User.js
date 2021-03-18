@@ -12,7 +12,12 @@ const UserSchema = new Schema(
     avatar: {
       type: String,
       required: false,
-      default: 'http:localhost:5000/statics/avatar/01.png',
+      default: 'http://localhost:5000/statics/avatar/dog.png',
+    },
+    baseAvatarUrl: {
+      type: String,
+      required: true,
+      default: 'http://localhost:5000/statics/avatar',
     },
   },
   {
