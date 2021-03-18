@@ -9,7 +9,11 @@ const UserSchema = new Schema(
     nickname: { type: String, required: false },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    avatar: { type: String, required: true, default: 'yxz' },
+    avatar: {
+      type: String,
+      required: false,
+      default: 'http:localhost:5000/statics/avatar/01.png',
+    },
   },
   {
     versionKey: false,

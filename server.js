@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 const port = process.env.PORT;
@@ -14,6 +15,7 @@ const recordRouter = require('./src/routes/recordRouter');
 // Middleware
 app.use(express.json());
 app.use(cors());
+app.use('/statics', express.static(path.join(__dirname, 'src/statics')));
 
 // Start server
 app.listen(port, () => {

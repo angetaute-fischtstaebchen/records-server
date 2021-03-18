@@ -3,8 +3,8 @@ const User = require('../models/User');
 const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
   try {
-    const user = await User.find({ email, password });
-    if (user.length < 1) {
+    const user = await User.findOne({ email, password });
+    if (!user) {
       throw new Error('User does not exists.Please signup');
     }
     res.json(user);
