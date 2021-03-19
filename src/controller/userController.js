@@ -1,19 +1,17 @@
 const User = require('../models/User');
+const { handleLoginError } = require('../helpers/handleLoginError');
+const { handleFindOne } = require('../helpers/handleFindOne');
 
 const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ email, password });
-    if (!user) {
-      throw new Error('User does not exists.Please signup');
-    }
+    const user = await User.findOne({ email }, (err, person) => {
+      handleFindOne({ person, email, password, next });
+    });
+
     res.json(user);
   } catch (err) {
-    const error = new Error(
-      `User with ${email} does not exist. Please signup.`
-    );
-    error.status = 400;
-    next(error);
+    next(handleLoginError(`Error login in the user`));
   }
 };
 
