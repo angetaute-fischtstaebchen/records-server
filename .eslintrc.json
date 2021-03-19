@@ -4,14 +4,27 @@
     "commonjs": true,
     "es2021": true
   },
-  "extends": ["plugin:prettier/recommended", "airbnb-base", "prettier"],
+  "extends": [
+    "plugin:prettier/recommended",
+    "airbnb-base",
+    "prettier"
+  ],
   "parserOptions": {
     "ecmaVersion": 12
   },
-  "plugins": ["prettier", "mongodb"],
+  "plugins": [
+    "prettier",
+    "mongodb"
+  ],
   "rules": {
     "import/prefer-default-export": "off",
     "import/no-default-export": "error",
-    "mongodb/no-replace": 0
+    "mongodb/no-replace": 0,
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "next"
+      }
+    ]
   }
 }
