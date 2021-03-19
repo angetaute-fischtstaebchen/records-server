@@ -76,8 +76,8 @@ console.log(`build script `);
         password: 'psw123',
       };
       console.log(`User ${userData.email} has been `);
-      const user = new User(userData);
-      return user.save();
+      const user = User.create(userData);
+      return user;
     });
 
   try {
