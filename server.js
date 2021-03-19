@@ -11,6 +11,7 @@ const port = process.env.PORT;
 const usersRouter = require('./src/routes/usersRouter');
 const authRouter = require('./src/routes/authRouter');
 const recordRouter = require('./src/routes/recordRouter');
+const { errorController } = require('./src/controller/errorController');
 
 // Middleware
 app.use(express.json());
@@ -51,8 +52,4 @@ app.get('/', (req, res) => {
 });
 
 // Errorhandler
-app.use((err, req, res) => {
-  res.status(err.status || 500).send({
-    error: { message: err.message },
-  });
-});
+app.use(errorController);
