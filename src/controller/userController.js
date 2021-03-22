@@ -28,10 +28,22 @@ const addUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const updatedUser = await User.findByIdAndUpdate(id, req.body, {
-      new: true,
-      useFindAndModify: false,
-    });
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      req.body,
+      {
+        new: true,
+        useFindAndModify: false,
+      },
+      (err, result) => {
+        if (err) {
+          next(err);
+        } else {
+          res.json(result);
+        }
+      }
+    );
+
     res.json(updatedUser);
   } catch (err) {
     next(err);

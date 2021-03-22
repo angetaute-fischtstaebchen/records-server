@@ -16,6 +16,9 @@
     "prettier",
     "mongodb"
   ],
+  "ignorePatterns": [
+    "src/seed/"
+  ],
   "rules": {
     "import/prefer-default-export": "off",
     "import/no-default-export": "error",
@@ -23,7 +26,7 @@
     "no-unused-vars": [
       "error",
       {
-        "argsIgnorePattern": "next"
+        "args": "none"
       }
     ]
   }
