@@ -35,7 +35,13 @@ const updateUser = async (req, res, next) => {
         new: true,
         useFindAndModify: false,
       },
-      (err, model) => next(err)
+      (err, result) => {
+        if (err) {
+          next(err);
+        } else {
+          res.json(result);
+        }
+      }
     );
 
     res.json(updatedUser);
