@@ -11,6 +11,7 @@ const port = process.env.PORT;
 const usersRouter = require('./src/routes/usersRouter');
 const authRouter = require('./src/routes/authRouter');
 const recordRouter = require('./src/routes/recordRouter');
+const ordersRouter = require('./src/routes/orderRouter');
 const { errorController } = require('./src/controller/errorController');
 
 // Middleware
@@ -26,8 +27,9 @@ app.listen(port, () => {
 // DB
 const dbUser = process.env.DB_USER;
 const dbPass = process.env.DB_PASS;
+const dbName = process.env.DB_NAME;
 
-const dbConnect = `mongodb+srv://${dbUser}:${dbPass}@cluster0.1cqrd.mongodb.net/records_db?retryWrites=true&w=majority`;
+const dbConnect = `mongodb+srv://${dbUser}:${dbPass}@cluster0.1cqrd.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 
 const mongooseOptions = {
   useNewUrlParser: true,
@@ -44,6 +46,7 @@ mongoose
 // Routes
 app.use('/', authRouter);
 app.use('/users', usersRouter);
+app.use('/orders', ordersRouter);
 app.use('/dashboard', recordRouter);
 
 // Main

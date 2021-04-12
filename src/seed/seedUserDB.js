@@ -4,16 +4,17 @@ const mongoose = require('mongoose');
 const faker = require('faker');
 const User = require('../models/User');
 const Record = require('../models/Record');
-
+const Order = require('../models/Order');
 console.log(`build script `);
 
 (async () => {
   // DB Connection
   const dbUser = process.env.DB_USER;
   const dbPass = process.env.DB_PASS;
+  const dbName = process.env.DB_NAME;
   const port = process.env.PORT;
 
-  const dbConnect = `mongodb+srv://${dbUser}:${dbPass}@cluster0.1cqrd.mongodb.net/records_db?retryWrites=true&w=majority`;
+  const dbConnect = `mongodb+srv://${dbUser}:${dbPass}@cluster0.1cqrd.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 
   const mongooseOptions = {
     useNewUrlParser: true,
@@ -35,33 +36,55 @@ console.log(`build script `);
   try {
     await Record.deleteMany({});
     console.log(`Old Records deleted`);
+    await Order.deleteMany({});
+    console.log(`old orders deleted`);
+    User.deleteMany({});
+    console.log(`old users deleted`);
   } catch (error) {
     console.log(error);
   }
 
   // 20 fake record
-
-  const recordPromises = Array(20)
-    .fill(null)
-    .map((_, i) => {
-      const recordData = {
+  let records = [];
+  try {
+    for (let i = 0; i < 20; i++) {
+      let record = await Record.create({
         cover: `http://localhost:${port}/statics/assets/record${i + 1}.png`,
         title: faker.name.firstName() + faker.name.lastName(),
         artist: faker.company.companyName(),
         year: faker.date.past().getFullYear(),
-      };
-
-      console.log(`record ${recordData.title} has been created`);
-      const newRecords = Record.create(recordData);
-      return newRecords;
-    });
-
-  try {
-    await Promise.all(recordPromises);
-    console.log('we stored 20 records');
-  } catch (error) {
-    console.log(error);
+        price: faker.commerce.price(),
+      });
+      records.push(record);
+    }
+    console.log(`stored 20 new records in the db`);
+  } catch (err) {
+    console.log(err);
   }
+
+  // const recordPromises = Array(20)
+  //   .fill(null)
+  //   .map((_, i) => {
+  //     const recordData = {
+  //       cover: `http://localhost:${port}/statics/assets/record${i + 1}.png`,
+  //       title: faker.name.firstName() + faker.name.lastName(),
+  //       artist: faker.company.companyName(),
+  //       year: faker.date.past().getFullYear(),
+  //       price: faker.commerce.price(),
+  //     };
+
+  //     console.log(`record ${recordData.title} has been created`);
+  //     const newRecords = Record.create(recordData);
+  //     return newRecords;
+  //   });
+
+  // try {
+  //   let allRecords = await Promise.all(recordPromises);
+  //   console.log('we stored 20 records', allRecords);
+  //   res.json(allRecords);
+  // } catch (error) {
+  //   console.log(error);
+  // }
 
   // 10 fake users
 
@@ -85,6 +108,52 @@ console.log(`build script `);
     console.log('we stored 10 users');
   } catch (error) {
     console.log(error);
+  }
+
+  const recordIds = records.map((record) => record._id);
+
+  //3 orders
+
+  try {
+    await Order.insertMany([
+      {
+        totalPrice: faker.commerce.price(),
+        records: [
+          {
+            recordId: faker.random.arrayElement(recordIds),
+            quantity: 2,
+          },
+        ],
+      },
+      {
+        totalPrice: faker.commerce.price(),
+        records: [
+          {
+            recordId: faker.random.arrayElement(recordIds),
+            quantity: 1,
+          },
+          {
+            recordId: faker.random.arrayElement(recordIds),
+            quantity: 2,
+          },
+        ],
+      },
+      {
+        totalPrice: faker.commerce.price(),
+        records: [
+          {
+            recordId: faker.random.arrayElement(recordIds),
+            quantity: 2,
+          },
+        ],
+      },
+    ]);
+
+    console.log(`stored 3 new Orders in the db`);
+    const allOrdersAndRecords = await Order.find().populate('recordId');
+    return allOrdersAndRecords;
+  } catch (err) {
+    console.log(err);
   }
 
   mongoose.connection.close();
