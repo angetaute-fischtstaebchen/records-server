@@ -6,9 +6,11 @@ const { handleFindOne } = require('../helpers/handleFindOne');
 const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ email }, (err, person) => {
-      handleFindOne({ person, email, password, next });
-    });
+    const user = await User.findOne({ email });
+
+    if (!user)
+      return next(handleLoginError(`User with ${email} does not exist`, 401));
+
     // check password mit hashed one in db
     const pwCompareResult = bcryptjs.compareSync(password, user.password);
 
@@ -16,7 +18,7 @@ const loginUser = async (req, res, next) => {
       return next(handleLoginError('Your password is wrong', 401));
     }
 
-    const token = user.populate.generateAuthToken();
+    const token = user.generateAuthToken();
 
     res.cookie('token', token, {
       expires: new Date(Date.now() + 646800000),
