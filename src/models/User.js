@@ -1,7 +1,12 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const { Schema, model } = mongoose;
+
+const secretKey = process.env.JWT_SECRET;
 
 const UserSchema = new Schema(
   {
@@ -33,6 +38,38 @@ const UserSchema = new Schema(
     timestamps: true,
   }
 );
+// Pre save
+// eslint-disable-next-line func-names
+UserSchema.pre('save', function () {
+  const user = this;
+
+  // convert password to password hash
+  if (user.isModified('password')) {
+    user.password = bcryptjs.hashSync(user.password, 8); // 8 = salting rounds(default 10)
+  }
+});
+
+UserSchema.methods.generateAuthToken = function () {
+  const user = this;
+  const token = jwt
+    .sign({ _id: user._id.toString() }, secretKey, {
+      expiresIn: '1h',
+    })
+    .toString();
+
+  return token;
+};
+
+UserSchema.statics.findByToken = function (token) {
+  const User = this;
+  try {
+    const decode = jwt.verify(token, secretKey);
+    console.log('decode: ', decode);
+    return User.findOne({ _id: decode._id });
+  } catch (error) {
+    return error;
+  }
+};
 
 const User = model('User', UserSchema);
 

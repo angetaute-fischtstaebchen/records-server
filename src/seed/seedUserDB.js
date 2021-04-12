@@ -5,7 +5,7 @@ const faker = require('faker');
 const User = require('../models/User');
 const Record = require('../models/Record');
 const Order = require('../models/Order');
-console.log(`build script `);
+console.log(`execute seed script `);
 
 (async () => {
   // DB Connection
@@ -38,7 +38,7 @@ console.log(`build script `);
     console.log(`Old Records deleted`);
     await Order.deleteMany({});
     console.log(`old orders deleted`);
-    User.deleteMany({});
+    await User.deleteMany({});
     console.log(`old users deleted`);
   } catch (error) {
     console.log(error);
@@ -151,7 +151,7 @@ console.log(`build script `);
 
     console.log(`stored 3 new Orders in the db`);
     const allOrdersAndRecords = await Order.find().populate('recordId');
-    return allOrdersAndRecords;
+    //return allOrdersAndRecords;
   } catch (err) {
     console.log(err);
   }

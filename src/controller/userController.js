@@ -1,3 +1,4 @@
+const bcryptjs = require('bcryptjs');
 const User = require('../models/User');
 const { handleLoginError } = require('../helpers/handleLoginError');
 const { handleFindOne } = require('../helpers/handleFindOne');
@@ -8,6 +9,22 @@ const loginUser = async (req, res, next) => {
     const user = await User.findOne({ email }, (err, person) => {
       handleFindOne({ person, email, password, next });
     });
+    // check password mit hashed one in db
+    const pwCompareResult = bcryptjs.compareSync(password, user.password);
+
+    if (!pwCompareResult) {
+      return next(handleLoginError('Your password is wrong', 401));
+    }
+
+    const token = user.populate.generateAuthToken();
+
+    res.cookie('token', token, {
+      expires: new Date(Date.now() + 646800000),
+      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'lax',
+      secure: process.env.NODE_ENV === 'production' ? true : false,
+      // http on localhost, https on production});
+      httpOnly: true,
+    });
 
     res.json(user);
   } catch (err) {
@@ -15,11 +32,31 @@ const loginUser = async (req, res, next) => {
   }
 };
 
+// logout user
+
+const logoutUser = async (req, res, next) => {
+  res.clearCookie('token', {
+    sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'lax',
+    secure: process.env.NODE_ENV === 'production' ? true : false,
+    // http on localhost, https on production
+    httpOnly: true,
+  }); // clear the cookie in the browser
+  res.json({ message: 'Logged you out successfully' });
+};
+
 const addUser = async (req, res, next) => {
   const userInfo = req.body;
   try {
     const newUser = await User.create(userInfo);
-    res.json(newUser);
+    const token = newUser.generateAuthToken();
+    res
+      .cookie('token', token, {
+        expires: new Date(Date.now() + 646800000),
+        sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'lax',
+        secure: process.env.NODE_ENV === 'production' ? true : false, // http on localhost, https on production
+        httpOnly: true,
+      })
+      .json(newUser);
   } catch (err) {
     next(err);
   }
@@ -28,22 +65,12 @@ const addUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const updatedUser = await User.findByIdAndUpdate(
-      id,
-      req.body,
-      {
-        new: true,
-        useFindAndModify: false,
-      },
-      (err, result) => {
-        if (err) {
-          next(err);
-        } else {
-          res.json(result);
-        }
-      }
-    );
+    const user = await User.findById(id);
 
+    if (!user) return next(handleLoginError(`there is no User with id ${id}`));
+    Object.assign(user, req.body);
+
+    const updatedUser = await User.save();
     res.json(updatedUser);
   } catch (err) {
     next(err);
@@ -65,4 +92,5 @@ module.exports = {
   updateUser,
   deleteUser,
   loginUser,
+  logoutUser,
 };
