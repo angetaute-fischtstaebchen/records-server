@@ -65,6 +65,7 @@ const addUser = async (req, res, next) => {
   }
 };
 
+// eslint-disable-next-line consistent-return
 const updateUser = async (req, res, next) => {
   const { id } = req.params;
   try {
