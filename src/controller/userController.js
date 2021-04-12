@@ -1,7 +1,6 @@
 const bcryptjs = require('bcryptjs');
 const User = require('../models/User');
 const { handleLoginError } = require('../helpers/handleLoginError');
-const { handleFindOne } = require('../helpers/handleFindOne');
 
 const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
@@ -20,15 +19,16 @@ const loginUser = async (req, res, next) => {
 
     const token = user.generateAuthToken();
 
-    res.cookie('token', token, {
-      expires: new Date(Date.now() + 646800000),
-      sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'lax',
-      secure: process.env.NODE_ENV === 'production' ? true : false,
-      // http on localhost, https on production});
-      httpOnly: true,
-    });
-
-    res.json(user);
+    res
+      .cookie('token', token, {
+        expires: new Date(Date.now() + 646800000),
+        sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'lax',
+        // eslint-disable-next-line no-unneeded-ternary
+        secure: process.env.NODE_ENV === 'production' ? true : false,
+        // http on localhost, https on production});
+        httpOnly: true,
+      })
+      .json(user);
   } catch (err) {
     next(handleLoginError(`Error login in the user`));
   }
@@ -39,6 +39,7 @@ const loginUser = async (req, res, next) => {
 const logoutUser = async (req, res, next) => {
   res.clearCookie('token', {
     sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'lax',
+    // eslint-disable-next-line no-unneeded-ternary
     secure: process.env.NODE_ENV === 'production' ? true : false,
     // http on localhost, https on production
     httpOnly: true,
@@ -55,7 +56,7 @@ const addUser = async (req, res, next) => {
       .cookie('token', token, {
         expires: new Date(Date.now() + 646800000),
         sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'lax',
-        secure: process.env.NODE_ENV === 'production' ? true : false, // http on localhost, https on production
+        secure: process.env.NODE_ENV === 'production', // http on localhost, https on production
         httpOnly: true,
       })
       .json(newUser);

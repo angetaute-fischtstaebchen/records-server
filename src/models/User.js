@@ -52,6 +52,7 @@ UserSchema.pre('save', function () {
 UserSchema.methods.generateAuthToken = function () {
   const user = this;
   const token = jwt
+    // eslint-disable-next-line no-underscore-dangle
     .sign({ _id: user._id.toString() }, secretKey, {
       expiresIn: '1h',
     })
@@ -65,6 +66,7 @@ UserSchema.statics.findByToken = function (token) {
   try {
     const decode = jwt.verify(token, secretKey);
     console.log('decode: ', decode);
+    // eslint-disable-next-line no-underscore-dangle
     return User.findOne({ _id: decode._id });
   } catch (error) {
     return error;
