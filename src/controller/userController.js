@@ -2,6 +2,7 @@ const bcryptjs = require('bcryptjs');
 const User = require('../models/User');
 const { handleLoginError } = require('../helpers/handleLoginError');
 
+// eslint-disable-next-line consistent-return
 const loginUser = async (req, res, next) => {
   const { email, password } = req.body;
   try {

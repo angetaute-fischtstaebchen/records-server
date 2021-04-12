@@ -5,7 +5,7 @@ exports.auth = async (req, res, next) => {
   try {
     const { token } = req.cookies;
     console.log('token', token);
-    const user = await User.finndByToken(token);
+    const user = await User.findByToken(token);
     if (!user) next(handleAuthError('there is no user with the given token'));
   } catch (err) {
     next(handleAuthError(err));
